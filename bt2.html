@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bt2</title>
+</head>
+
+<body>
+    <input type="text" id="inputWork" placeholder="Nhập việc muốn làm vào đây">
+    <input type="button" value="Add Work" id="addWork">
+    <input type="button" value="Clear Work" id="clearWork">
+    <ul id="listWork"></ul>
+    <script>
+        let work = document.getElementById("inputWork");
+        let addWork = document.getElementById("addWork");
+        let clearWork = document.getElementById("clearWork");
+        let listWork = document.getElementById("listWork");
+
+        addWork.addEventListener("click", function (e) {
+            localStorage.setItem(work.value, work.value);
+            let liWork = document.createElement("li");
+            let liText = document.createTextNode(work.value);
+            liWork.appendChild(liText);
+
+            let button = document.createElement("button");
+            button.innerText = "Xóa";
+            button.addEventListener("click", function () {
+                localStorage.removeItem(button.previousSibling.textContent);
+                button.parentNode.outerHTML = "";
+            });
+            liWork.appendChild(button);
+
+            listWork.appendChild(liWork);
+            work.value = "";
+        });
+        function getAllWorks() {
+            for (let index = 0; index < localStorage.length; index++) {
+                let liWork = document.createElement("li");
+                let liText = document.createTextNode(localStorage.key(index));
+                liWork.appendChild(liText);
+
+                let button = document.createElement("button");
+                button.innerText = "Xóa";
+                button.addEventListener("click", function () {
+                    localStorage.removeItem(button.previousSibling.textContent);
+                    button.parentNode.outerHTML = "";
+                });
+                liWork.appendChild(button);
+
+                listWork.appendChild(liWork);
+            }
+        }
+
+
+        clearWork.addEventListener("click", function () {
+            localStorage.clear();
+            listWork.innerHTML = "";
+        });
+
+        getAllWorks();
+
+    </script>
+</body>
+
+</html>
